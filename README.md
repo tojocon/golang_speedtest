@@ -12,18 +12,15 @@ Toby Jones
 sample output:
 
 $ go run retrieve.go
-http transport error is: <nil>
-read error is: <nil>
-    
-    <title>RailsHku</title>
+
+  RailsHku
 
 Retrieve time was:  390  Milliseconds.
 
 rails response time:  390
-http transport error is: <nil>
-read error is: <nil>
 
-    <title>Toby's Golang Demo</title>
+
+ Toby's Golang Demo
 
 Retrieve time was:  325  Milliseconds.
 
