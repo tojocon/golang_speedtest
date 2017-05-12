@@ -1,5 +1,3 @@
-
-
 package main    
 
 import (
@@ -9,14 +7,7 @@ import (
   "time"
 )               
 
-func main() {
-	rails_time:=time_page_load("https://rails-hku-demo.herokuapp.com/")
-	fmt.Println("rails response time: ", rails_time)   
-	golang_time:=time_page_load("https://gohkudemo.herokuapp.com/")
-	fmt.Println("golang response time: ", golang_time)  
-	}                            
-
-func time_page_load (url string) int64{
+func time_page_load (url string, c chan string) {
 	
 	t1 := time.Now()
 	unixNano := t1.UnixNano()                                                                      
@@ -36,5 +27,31 @@ func time_page_load (url string) int64{
 	diff:=umillisec2 - umillisec
 	fmt.Println("\nRetrieve time was: ",diff, " Milliseconds.\n")
 	
-	return diff
+	c<-fmt.Sprintf("\n%s - time: %d\n",url,diff)
 }
+
+func printer(c chan string) {
+  for {
+    msg := <- c
+    fmt.Println(msg)
+    time.Sleep(time.Second * 1)
+  }
+}
+
+
+func main() {
+	
+	var c chan string = make(chan string)
+	
+	go time_page_load("https://rails-hku-demo.herokuapp.com/", c)
+  
+	go time_page_load("https://gohkudemo.herokuapp.com/", c)
+ 
+	go printer(c)
+	
+	var input string
+	fmt.Scanln(&input)
+}                            
+
+
+
